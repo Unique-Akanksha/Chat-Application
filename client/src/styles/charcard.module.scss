@@ -1,0 +1,66 @@
+.chatCard {
+    .heading {
+        text-align: left;
+        font-size: 16px;
+        color: black;
+        font-weight: 700;
+    }
+
+    .chatList {
+        display: flex;
+        justify-content: space-between;
+        background: #ecf1f5;
+        padding: 10px;
+        border-radius: 8px;
+        margin-top: 10px;
+
+        .chatItem {
+            display: flex;
+            gap: 8px;
+
+            .profile {
+                width: 50px;
+                height: 50px;
+                border-radius: 50px;
+                background: lightcoral;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+
+                .active {
+                    height: 8px;
+                    width: 8px;
+                    background: green;
+                    border-radius: 50%;
+                    position: absolute;
+                    bottom: 5px;
+                    right: 2px;
+                }
+            }
+
+            .chatDetails {
+                .chatName {
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: darkcyan;
+                }
+
+                .lastMessage {
+                    font-size: 14px;
+                    color: gray;
+                    text-align: left;
+                }
+            }
+
+        }
+
+        .messageTime {
+            font-size: 12px;
+            color: gray;
+            align-self: flex-start;
+
+        }
+    }
+
+}

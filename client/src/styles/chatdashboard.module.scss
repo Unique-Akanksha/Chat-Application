@@ -1,0 +1,216 @@
+.parent {
+    background: #ecf1f5;
+    height: 100vh;
+    min-width: 74%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        background: #ffffff;
+        padding: 14px 18px;
+        align-items: center;
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+
+        .profileSection {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+
+            .profile {
+                width: 48px;
+                height: 48px;
+                border-radius: 50%;
+                overflow: hidden;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: relative;
+                background: #eef2ff;
+            }
+
+            .profile img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover
+            }
+        }
+
+        .active {
+            height: 10px;
+            width: 10px;
+            background: #48d261;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 3px;
+            right: 3px;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.06);
+        }
+
+        .userName,
+        .userMeta {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .displayName {
+            font-size: 15px;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .online {
+            font-size: 13px;
+            color: #6b7280;
+        }
+    }
+
+    .actionIcons {
+        display: flex;
+        gap: 14px;
+        cursor: pointer;
+        font-size: 20px;
+        color: #334155;
+    }
+
+    .menu {
+        position: absolute;
+        right: 0;
+        top: 32px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 6px 18px rgba(2, 6, 23, 0.08);
+        overflow: hidden;
+        z-index: 30;
+    }
+
+    .menuItem {
+        padding: 10px 14px;
+        font-size: 14px;
+        color: #0f172a;
+        cursor: pointer
+    }
+
+    .menuItem:hover {
+        background: #f1f5f9
+    }
+}
+
+
+.body {
+    flex: 1 1 auto;
+    overflow: auto;
+    padding: 18px;
+    display: flex;
+    align-items: flex-end;
+}
+
+.messages {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.messageReceived,
+.messageSent {
+    display: flex;
+    flex-direction: column;
+    max-width: 70%;
+}
+
+.messageReceived {
+    align-self: flex-start;
+}
+
+.messageSent {
+    align-self: flex-end;
+    text-align: right;
+}
+
+.bubble {
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    color: #111827;
+    font-size: 14px;
+}
+
+.msgAvatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 6px
+}
+
+.messageSent .bubble {
+    background: linear-gradient(90deg, #7dd3fc, #a78bfa);
+    color: white;
+}
+
+.time {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-top: 4px;
+}
+
+.status {
+    margin-left: 6px;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 600;
+    font-size: 12px
+}
+
+.inputSection {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    padding: 12px 16px;
+    background: #ffffff;
+    align-items: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.inputbox {
+    width: calc(100% - 56px);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f8fafc;
+    padding: 8px 10px;
+    border-radius: 12px;
+}
+
+.leftIcons {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    color: #64748b
+}
+
+.input {
+    width: 100%;
+    padding: 8px 6px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+}
+
+.sendButton {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(90deg, #06b6d4, #7c3aed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(124, 58, 237, 0.12);
+}

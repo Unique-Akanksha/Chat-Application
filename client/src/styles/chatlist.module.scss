@@ -1,0 +1,48 @@
+.chatList {
+    width: 20%;
+    height: 100vh;
+    background: white;
+    padding: 10px 20px;
+
+    .chatListHeader {
+        display: flex;
+        justify-content: space-between;
+        height: 50px;
+        width: 100%;
+        align-items: center;
+
+        .chatText {
+            font-size: 24px;
+            font-weight: bold;
+            color: darkcyan;
+        }
+
+        .chaticon {
+            font-size: 28px;
+            color: darkcyan;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    }
+
+    .searchContainer {
+        margin-top: 10px;
+    }
+
+    .ChatCard {
+        margin-top: 10px;
+        overflow-y: auto;
+        height: calc(100vh - 150px);
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        .heading {
+            text-align: left;
+            font-size: 16px;
+            color: black;
+            font-weight: 700;
+        }
+    }
+}
