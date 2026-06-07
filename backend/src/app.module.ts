@@ -6,13 +6,19 @@ import { UsersModule } from './module/users/users.module';
 import { ConversationsModule } from './module/conversations/conversations.module';
 import { MessagesModule } from './module/messages/messages.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    MongooseModule.forRoot(process.env.MONGO_URI!),
     AuthModule,
     UsersModule,
     ConversationsModule,
     MessagesModule,
-    MongooseModule.forRoot('mongodb://localhost/chat-application'),
+
+
   ],
   controllers: [AppController],
   providers: [AppService],
