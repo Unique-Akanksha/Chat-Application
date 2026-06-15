@@ -7,11 +7,7 @@ import { useState } from "react";
 export default function Home() {
   const [selectedContact, setSelectedContact] = useState(1);
   return (
-    <div
-      className="size-full flex overflow-hidden h-full"
-      style={{ background: "var(--background)", fontFamily: "'Inter', 'SF Pro Display', system-ui, sans-serif" }
-      }
-    >
+    <div style={{ display: "flex", minHeight: "98vh", overflow: "hidden" }}>
       <ChatSidebar selectedId={selectedContact} onSelect={setSelectedContact} />
       <ChatWindow contactId={selectedContact} />
       <RightPanel contactId={selectedContact} />

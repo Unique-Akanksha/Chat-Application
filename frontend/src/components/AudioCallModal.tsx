@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Mic, MicOff, Phone, Volume2, VolumeX, Speaker } from "lucide-react";
-
+import styles from "../styles/AudioCallModal.module.scss";
 interface AudioCallModalProps {
     contact: { name: string; color: string; avatar: string };
     onClose: () => void;
@@ -35,79 +35,56 @@ export function AudioCallModal({ contact, onClose }: AudioCallModalProps) {
     };
 
     return (
-        <div
-            className="fixed inset-0 z-50 flex items-center justify-center"
-            style={{ background: "rgba(0,0,0,0.85)", backdropFilter: "blur(8px)" }}
-        >
-            <div
-                className="relative flex flex-col items-center w-80 rounded-3xl overflow-hidden shadow-2xl"
-                style={{ background: "#0d1021", padding: "40px 32px 32px" }}
-            >
+        <div className={styles.overlay}>
+            <div className={styles.modal}>
                 {/* Glow rings */}
-                <div className="relative flex items-center justify-center mb-6">
+                <div className={styles.glowRings}>
                     {status === "connected" && (
                         <>
                             <div
-                                className="absolute rounded-full transition-all duration-700"
+                                className={styles.innerRing}
                                 style={{
                                     width: pulse ? "120px" : "100px",
                                     height: pulse ? "120px" : "100px",
                                     background: `${contact.color}18`,
-                                    transition: "all 0.7s ease",
                                 }}
                             />
                             <div
-                                className="absolute rounded-full"
+                                className={styles.outerRing}
                                 style={{
                                     width: pulse ? "160px" : "140px",
                                     height: pulse ? "160px" : "140px",
                                     background: `${contact.color}09`,
-                                    transition: "all 0.9s ease",
                                 }}
                             />
                         </>
                     )}
-                    <div
-                        className="relative z-10 w-20 h-20 rounded-full flex items-center justify-center text-2xl text-white"
-                        style={{ background: contact.color }}
-                    >
+                    <div className={styles.avatar} style={{ background: contact.color }}>
                         {contact.avatar}
                     </div>
                 </div>
 
-                <div style={{ color: "white", fontSize: "20px", marginBottom: "6px" }}>{contact.name}</div>
-                <div style={{ color: "rgba(255,255,255,0.4)", fontSize: "14px", marginBottom: "24px" }}>
-                    {status === "calling" ? (
-                        <span className="animate-pulse">Calling...</span>
-                    ) : (
-                        formatTime(elapsed)
-                    )}
+                <div className={styles.name}>{contact.name}</div>
+                <div className={styles.status}>
+                    {status === "calling" ? <span className={styles.pulse}>Calling...</span> : formatTime(elapsed)}
                 </div>
 
                 {status === "connected" && (
-                    <div
-                        className="flex items-center gap-1 mb-6 px-3 py-1 rounded-full"
-                        style={{ background: "rgba(34,197,94,0.12)", color: "#22c55e", fontSize: "12px" }}
-                    >
-                        <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                    <div className={styles.connectionBadge}>
+                        <span className={styles.indicator} />
                         Voice connected
                     </div>
                 )}
 
                 {/* Waveform simulation */}
                 {status === "connected" && micOn && (
-                    <div className="flex items-center gap-1 mb-6">
+                    <div className={styles.waveform}>
                         {Array.from({ length: 12 }).map((_, i) => (
                             <div
                                 key={i}
-                                className="rounded-full transition-all duration-150"
+                                className={styles.bar}
                                 style={{
-                                    width: "3px",
                                     height: `${8 + Math.sin(Date.now() / 200 + i) * 8 + Math.random() * 8}px`,
-                                    background: contact.color,
-                                    opacity: 0.6 + Math.random() * 0.4,
-                                    minHeight: "4px",
-                                    maxHeight: "28px",
                                 }}
                             />
                         ))}
@@ -115,7 +92,7 @@ export function AudioCallModal({ contact, onClose }: AudioCallModalProps) {
                 )}
 
                 {/* Controls */}
-                <div className="flex items-center gap-4 mt-2">
+                <div className={styles.controls}>
                     <AudioBtn
                         on={speakerOn}
                         onClick={() => setSpeakerOn((v) => !v)}
@@ -126,8 +103,8 @@ export function AudioCallModal({ contact, onClose }: AudioCallModalProps) {
 
                     <button
                         onClick={onClose}
-                        className="w-16 h-16 rounded-full flex items-center justify-center transition-opacity hover:opacity-80"
-                        style={{ background: "#ef4444" }}
+                        className={styles.controlButton}
+                        style={{ gridColumn: "1 / -1", background: "#ef4444" }}
                     >
                         <Phone size={22} color="white" style={{ transform: "rotate(135deg)" }} />
                     </button>
@@ -161,18 +138,14 @@ function AudioBtn({
     return (
         <button
             onClick={onClick}
-            className="flex flex-col items-center gap-1.5 transition-opacity hover:opacity-70"
+            className={styles.controlButton}
+            style={{
+                background: on ? "rgba(255,255,255,0.08)" : "rgba(239,68,68,0.15)",
+                color: on ? "rgba(255,255,255,0.7)" : "#ef4444",
+            }}
         >
-            <div
-                className="w-12 h-12 rounded-full flex items-center justify-center"
-                style={{
-                    background: on ? "rgba(255,255,255,0.1)" : "rgba(239,68,68,0.15)",
-                    color: on ? "rgba(255,255,255,0.7)" : "#ef4444",
-                }}
-            >
-                {on ? iconOn : iconOff}
-            </div>
-            <span style={{ color: "rgba(255,255,255,0.4)", fontSize: "10px" }}>{label}</span>
+            <div className={styles.icon}>{on ? iconOn : iconOff}</div>
+            <div className={styles.label}>{label}</div>
         </button>
     );
 }

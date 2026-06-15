@@ -14,8 +14,7 @@ import {
 } from "lucide-react";
 import { AudioCallModal } from "./AudioCallModal";
 import { VideoCallModal } from "./VideoCallModal";
-// import { VideoCallModal } from "./VideoCallModal";
-// import { AudioCallModal } from "./AudioCallModal";
+import styles from "../styles/ChatWindow.module.scss";
 
 const conversationsMap: Record<number, { sender: string; text: string; time: string; own: boolean }[]> = {
     1: [
@@ -95,33 +94,22 @@ export function ChatWindow({ contactId }: { contactId: number }) {
 
     return (
         <>
-            <div className="flex flex-col h-full flex-1 min-w-0" style={{ background: "var(--background)" }}>
+            <div className={styles.container}>
                 {/* Header */}
-                <div
-                    className="flex items-center gap-3 px-5 py-3.5 shrink-0"
-                    style={{ borderBottom: "1px solid var(--border)", background: "var(--card)" }}
-                >
-                    <div className="relative shrink-0">
-                        <div
-                            className="w-10 h-10 rounded-full flex items-center justify-center text-sm text-white"
-                            style={{ background: info.color }}
-                        >
+                <div className={styles.header}>
+                    <div className={styles.avatarWrapper}>
+                        <div className={styles.avatar} style={{ background: info.color }}>
                             {info.avatar}
                         </div>
-                        {info.online && (
-                            <span
-                                className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full border-2"
-                                style={{ background: "#22c55e", borderColor: "var(--card)" }}
-                            />
-                        )}
+                        {info.online && <span className={styles.onlineIndicator} />}
                     </div>
-                    <div className="flex-1 min-w-0">
-                        <div style={{ color: "var(--foreground)", fontSize: "15px" }}>{info.name}</div>
-                        <div style={{ color: info.online ? "#22c55e" : "var(--muted-foreground)", fontSize: "12px" }}>
+                    <div className={styles.info}>
+                        <div className={styles.name}>{info.name}</div>
+                        <div className={styles.status} style={{ color: info.online ? "#22c55e" : "var(--muted-foreground)" }}>
                             {info.online ? "Online" : "Offline"} · {info.role}
                         </div>
                     </div>
-                    <div className="flex items-center gap-1.5">
+                    <div className={styles.actions}>
                         <HeaderBtn onClick={() => setShowAudio(true)} icon={<Phone size={16} />} />
                         <HeaderBtn onClick={() => setShowVideo(true)} icon={<Video size={16} />} />
                         <HeaderBtn icon={<Search size={16} />} />
@@ -129,33 +117,19 @@ export function ChatWindow({ contactId }: { contactId: number }) {
                     </div>
                 </div>
 
-                {/* Messages */}
-                <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4 [&::-webkit-scrollbar]:hidden">
+                <div className={styles.messagesContainer}>
                     {messages.map((msg, i) => (
                         <MessageBubble key={i} msg={msg} info={info} />
                     ))}
                     <div ref={bottomRef} />
                 </div>
 
-                {/* Input */}
-                <div
-                    className="px-4 py-3 shrink-0"
-                    style={{ borderTop: "1px solid var(--border)", background: "var(--card)" }}
-                >
-                    <div
-                        className="flex items-end gap-2 px-3 py-2.5 rounded-2xl"
-                        style={{ background: "var(--input-background)" }}
-                    >
-                        <button
-                            className="w-7 h-7 flex items-center justify-center rounded-lg shrink-0 transition-opacity hover:opacity-70"
-                            style={{ color: "var(--muted-foreground)" }}
-                        >
+                <div className={styles.inputSection}>
+                    <div className={styles.inputWrapper}>
+                        <button className={styles.iconButton}>
                             <Paperclip size={16} />
                         </button>
-                        <button
-                            className="w-7 h-7 flex items-center justify-center rounded-lg shrink-0 transition-opacity hover:opacity-70"
-                            style={{ color: "var(--muted-foreground)" }}
-                        >
+                        <button className={styles.iconButton}>
                             <Image size={16} />
                         </button>
                         <textarea
@@ -169,35 +143,21 @@ export function ChatWindow({ contactId }: { contactId: number }) {
                             }}
                             placeholder={`Message ${info.name}...`}
                             rows={1}
-                            className="flex-1 bg-transparent outline-none border-none resize-none placeholder:opacity-40 leading-relaxed"
-                            style={{ color: "var(--foreground)", fontSize: "14px", maxHeight: "120px" }}
                         />
-                        <button
-                            className="w-7 h-7 flex items-center justify-center rounded-lg shrink-0 transition-opacity hover:opacity-70"
-                            style={{ color: "var(--muted-foreground)" }}
-                        >
+                        <button className={styles.iconButton}>
                             <Smile size={16} />
                         </button>
                         {input.trim() ? (
-                            <button
-                                onClick={sendMsg}
-                                className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-opacity hover:opacity-80"
-                                style={{ background: "var(--primary)" }}
-                            >
+                            <button onClick={sendMsg} className={styles.sendButton}>
                                 <Send size={15} color="white" />
                             </button>
                         ) : (
-                            <button
-                                className="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 transition-opacity hover:opacity-80"
-                                style={{ background: "var(--primary)" }}
-                            >
+                            <button className={styles.sendButton}>
                                 <Mic size={15} color="white" />
                             </button>
                         )}
                     </div>
-                    <p className="text-center mt-2" style={{ color: "var(--muted-foreground)", fontSize: "11px" }}>
-                        Press Enter to send · Shift+Enter for new line
-                    </p>
+                    <p className={styles.hint}>Press Enter to send · Shift+Enter for new line</p>
                 </div>
             </div>
 
@@ -228,40 +188,29 @@ function MessageBubble({
 }) {
     if (msg.own) {
         return (
-            <div className="flex justify-end">
-                <div className="max-w-sm">
-                    <div
-                        className="px-4 py-2.5 rounded-2xl rounded-tr-sm"
-                        style={{ background: "var(--primary)", color: "white" }}
-                    >
-                        <p style={{ fontSize: "14px", lineHeight: "1.5" }}>{msg.text}</p>
-                    </div>
-                    <div className="flex items-center justify-end gap-1 mt-1 pr-1">
-                        <span style={{ color: "var(--muted-foreground)", fontSize: "11px" }}>{msg.time}</span>
-                        <CheckCheck size={12} style={{ color: "var(--primary)" }} />
-                    </div>
+            <div className={`${styles.messageBubble} ${styles.own}`}>
+                <div className={styles.bubble}>
+                    <p>{msg.text}</p>
+                </div>
+                <div className={styles.timestamp}>
+                    <span>{msg.time}</span>
+                    <CheckCheck size={12} style={{ color: "var(--primary)" }} />
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="flex items-end gap-2">
-            <div
-                className="w-7 h-7 rounded-full flex items-center justify-center text-xs text-white shrink-0"
-                style={{ background: info.color }}
-            >
+        <div className={`${styles.messageBubble} ${styles.other}`}>
+            <div className={styles.avatar} style={{ background: info.color }}>
                 {info.avatar}
             </div>
-            <div className="max-w-sm">
-                <div
-                    className="px-4 py-2.5 rounded-2xl rounded-tl-sm"
-                    style={{ background: "var(--card)", color: "var(--foreground)", border: "1px solid var(--border)" }}
-                >
-                    <p style={{ fontSize: "14px", lineHeight: "1.5" }}>{msg.text}</p>
+            <div>
+                <div className={styles.bubble}>
+                    <p>{msg.text}</p>
                 </div>
-                <div className="flex items-center gap-1 mt-1 pl-1">
-                    <span style={{ color: "var(--muted-foreground)", fontSize: "11px" }}>{msg.time}</span>
+                <div className={styles.timestamp}>
+                    <span>{msg.time}</span>
                 </div>
             </div>
         </div>

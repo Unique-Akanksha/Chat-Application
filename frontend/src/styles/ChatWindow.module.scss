@@ -1,0 +1,251 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    flex: 1;
+    min-width: 0;
+    background: var(--background);
+
+    .header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.875rem 1.25rem;
+        border-bottom: 1px solid var(--border);
+        background: var(--card);
+        flex-shrink: 0;
+
+        .avatarWrapper {
+            position: relative;
+            flex-shrink: 0;
+
+            .avatar {
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.875rem;
+                color: white;
+            }
+
+            .onlineIndicator {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                width: 0.625rem;
+                height: 0.625rem;
+                border-radius: 50%;
+                background: #22c55e;
+                border: 2px solid var(--card);
+            }
+        }
+
+        .info {
+            flex: 1;
+            min-width: 0;
+
+            .name {
+                color: var(--foreground);
+                font-size: 0.9375rem;
+            }
+
+            .status {
+                font-size: 0.75rem;
+                margin-top: 0.125rem;
+            }
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+    }
+
+    .messagesContainer {
+        flex: 1;
+        overflow-y: auto;
+        padding: 1rem 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        .messageBubble {
+            display: flex;
+            gap: 0.5rem;
+            align-items: flex-end;
+
+            &.own {
+                justify-content: flex-end;
+
+                .bubble {
+                    padding: 0.625rem 1rem;
+                    border-radius: 0.875rem 0.875rem 0.125rem 0.875rem;
+                    background: var(--primary);
+                    color: white;
+                    max-width: 28rem;
+
+                    p {
+                        font-size: 0.875rem;
+                        line-height: 1.5;
+                    }
+                }
+
+                .timestamp {
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                    gap: 0.25rem;
+                    margin-top: 0.25rem;
+                    padding-right: 0.25rem;
+
+                    span {
+                        color: var(--muted-foreground);
+                        font-size: 0.6875rem;
+                    }
+                }
+            }
+
+            &.other {
+                .avatar {
+                    width: 1.75rem;
+                    height: 1.75rem;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 0.75rem;
+                    color: white;
+                    flex-shrink: 0;
+                }
+
+                .bubble {
+                    padding: 0.625rem 1rem;
+                    border-radius: 0.875rem 0.875rem 0.875rem 0.125rem;
+                    background: var(--card);
+                    color: var(--foreground);
+                    border: 1px solid var(--border);
+                    max-width: 28rem;
+
+                    p {
+                        font-size: 0.875rem;
+                        line-height: 1.5;
+                    }
+                }
+
+                .timestamp {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.25rem;
+                    margin-top: 0.25rem;
+                    padding-left: 0.25rem;
+
+                    span {
+                        color: var(--muted-foreground);
+                        font-size: 0.6875rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .inputSection {
+        padding: 0.75rem 1rem;
+        border-top: 1px solid var(--border);
+        background: var(--card);
+        flex-shrink: 0;
+
+        .inputWrapper {
+            display: flex;
+            align-items: flex-end;
+            gap: 0.5rem;
+            padding: 0.625rem 0.75rem;
+            border-radius: 1rem;
+            background: var(--input-background);
+
+            .iconButton {
+                width: 1.75rem;
+                height: 1.75rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 0.5rem;
+                flex-shrink: 0;
+                color: var(--muted-foreground);
+                cursor: pointer;
+                transition: opacity 0.2s;
+                background: transparent;
+                border: none;
+
+                &:hover {
+                    opacity: 0.7;
+                }
+            }
+
+            textarea {
+                flex: 1;
+                background: transparent;
+                outline: none;
+                border: none;
+                resize: none;
+                color: var(--foreground);
+                font-size: 0.875rem;
+                max-height: 7.5rem;
+                line-height: 1.5;
+
+                &::placeholder {
+                    opacity: 0.4;
+                }
+            }
+
+            .sendButton {
+                width: 2rem;
+                height: 2rem;
+                border-radius: 0.75rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                background: var(--primary);
+                cursor: pointer;
+                transition: opacity 0.2s;
+                border: none;
+
+                &:hover {
+                    opacity: 0.8;
+                }
+            }
+        }
+
+        .hint {
+            text-align: center;
+            margin-top: 0.5rem;
+            color: var(--muted-foreground);
+            font-size: 0.6875rem;
+        }
+    }
+}
+
+.headerBtn {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    background: var(--muted);
+    color: var(--muted-foreground);
+    cursor: pointer;
+    border: none;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}

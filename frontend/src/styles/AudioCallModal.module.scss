@@ -1,0 +1,211 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+}
+
+.modal {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 20rem;
+    border-radius: 1.875rem;
+    overflow: hidden;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    background: #0d1021;
+    padding: 2.5rem 2rem 2rem;
+
+    .glowRings {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+
+        .outerRing {
+            position: absolute;
+            border-radius: 50%;
+            transition: all 0.9s ease;
+        }
+
+        .innerRing {
+            position: absolute;
+            border-radius: 50%;
+            transition: all 0.7s ease;
+        }
+
+        .avatar {
+            position: relative;
+            z-index: 10;
+            width: 5rem;
+            height: 5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+        }
+    }
+
+    .name {
+        color: white;
+        font-size: 1.25rem;
+        margin-bottom: 0.375rem;
+    }
+
+    .status {
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 0.875rem;
+        margin-bottom: 1.5rem;
+
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    }
+
+    .connectionBadge {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        margin-bottom: 1.5rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        background: rgba(34, 197, 94, 0.12);
+        color: #22c55e;
+        font-size: 0.75rem;
+
+        .indicator {
+            width: 0.375rem;
+            height: 0.375rem;
+            border-radius: 50%;
+            background: #4ade80;
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+    }
+
+    .waveform {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        margin-bottom: 1.5rem;
+
+        .bar {
+            width: 0.25rem;
+            border-radius: 0.125rem;
+            background: var(--primary, #6c63ff);
+            animation: waveAnimation 0.6s ease-in-out infinite;
+
+            &:nth-child(1) {
+                animation-delay: 0s;
+            }
+
+            &:nth-child(2) {
+                animation-delay: 0.1s;
+            }
+
+            &:nth-child(3) {
+                animation-delay: 0.2s;
+            }
+
+            &:nth-child(4) {
+                animation-delay: 0.3s;
+            }
+
+            &:nth-child(5) {
+                animation-delay: 0.4s;
+            }
+
+            &:nth-child(6) {
+                animation-delay: 0.5s;
+            }
+        }
+    }
+
+    .controls {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        width: 100%;
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+        .controlButton {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.12);
+            }
+
+            .icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .label {
+                font-size: 0.75rem;
+                white-space: nowrap;
+            }
+
+            &.active {
+                background: rgba(34, 197, 94, 0.15);
+            }
+
+            &.off {
+                background: rgba(239, 68, 68, 0.15);
+            }
+        }
+
+        .endButton {
+            grid-column: 1 / -1;
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+
+            &:hover {
+                background: rgba(239, 68, 68, 0.3);
+            }
+        }
+    }
+}
+
+@keyframes waveAnimation {
+
+    0%,
+    100% {
+        height: 0.5rem;
+    }
+
+    50% {
+        height: 1.5rem;
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}

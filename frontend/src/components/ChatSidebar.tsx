@@ -11,7 +11,7 @@ import {
     CheckCheck,
     Circle,
 } from "lucide-react";
-
+import styles from "../styles/ChatSidebar.module.scss";
 const contacts = [
     {
         id: 1,
@@ -21,7 +21,7 @@ const contacts = [
         time: "2m",
         unread: 3,
         online: true,
-        color: "#6c63ff",
+        color: "lightpink",
     },
     {
         id: 2,
@@ -102,57 +102,32 @@ export function ChatSidebar({ selectedId, onSelect }: ChatSidebarProps) {
     );
 
     return (
-        <aside
-            style={{
-                background: "var(--card)",
-                borderRight: "1px solid var(--border)",
-            }}
-            className="flex flex-col w-80 shrink-0 h-full"
-        >
+        <aside className={styles.sidebar}>
             {/* Top bar */}
-            <div className="flex items-center justify-between px-5 pt-5 pb-3">
-                <div className="flex items-center gap-2">
-                    <div
-                        className="w-8 h-8 rounded-xl flex items-center justify-center"
-                        style={{ background: "var(--primary)" }}
-                    >
+            <div className={styles.topBar}>
+                <div className={styles.title}>
+                    <div className={styles.icon}>
                         <MessageSquare size={16} color="white" />
                     </div>
-                    <span
-                        style={{ color: "var(--foreground)" }}
-                        className="tracking-tight"
-                    >
-                        Messages
-                    </span>
+                    <span className={styles.text}>Messages</span>
                 </div>
-                <div className="flex items-center gap-1">
-                    <button
-                        className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:opacity-80"
-                        style={{ background: "var(--muted)", color: "var(--muted-foreground)" }}
-                    >
+                <div className={styles.actions}>
+                    <button>
                         <Bell size={15} />
                     </button>
-                    <button
-                        className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors hover:opacity-80"
-                        style={{ background: "var(--primary)", color: "white" }}
-                    >
+                    <button className={styles.createButton}>
                         <Plus size={15} />
                     </button>
                 </div>
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-1 px-5 pb-3">
+            <div className={styles.tabs}>
                 {(["chats", "calls", "contacts"] as Tab[]).map((t) => (
                     <button
                         key={t}
                         onClick={() => setTab(t)}
-                        className="flex-1 py-1.5 rounded-lg capitalize transition-all"
-                        style={{
-                            background: tab === t ? "var(--primary)" : "transparent",
-                            color: tab === t ? "white" : "var(--muted-foreground)",
-                            fontSize: "13px",
-                        }}
+                        className={`${styles.tab} ${tab === t ? styles.active : ""}`}
                     >
                         {t}
                     </button>
@@ -160,24 +135,20 @@ export function ChatSidebar({ selectedId, onSelect }: ChatSidebarProps) {
             </div>
 
             {/* Search */}
-            <div className="px-4 pb-3">
-                <div
-                    className="flex items-center gap-2 px-3 py-2 rounded-xl"
-                    style={{ background: "var(--input-background)" }}
-                >
+            <div className={styles.search}>
+                <div className={styles.searchInput}>
                     <Search size={14} style={{ color: "var(--muted-foreground)" }} />
                     <input
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
                         placeholder="Search conversations..."
-                        className="flex-1 bg-transparent outline-none border-none placeholder:opacity-50"
-                        style={{ color: "var(--foreground)", fontSize: "13px" }}
+                        style={{ color: "var(--foreground)" }}
                     />
                 </div>
             </div>
 
             {/* Contact list */}
-            <div className="flex-1 overflow-y-auto px-2 space-y-0.5 [&::-webkit-scrollbar]:hidden">
+            <div className={styles.contactList}>
                 {tab === "chats" &&
                     filtered.map((contact) => (
                         <ContactRow
@@ -187,9 +158,7 @@ export function ChatSidebar({ selectedId, onSelect }: ChatSidebarProps) {
                             onClick={() => onSelect(contact.id)}
                         />
                     ))}
-                {tab === "calls" && (
-                    <CallsList />
-                )}
+                {tab === "calls" && <CallsList />}
                 {tab === "contacts" &&
                     filtered.map((contact) => (
                         <ContactRow
@@ -202,14 +171,13 @@ export function ChatSidebar({ selectedId, onSelect }: ChatSidebarProps) {
             </div>
 
             {/* Bottom nav */}
-            <div
-                className="flex items-center justify-around px-4 py-3 mt-1"
-                style={{ borderTop: "1px solid var(--border)" }}
-            >
-                <NavIcon icon={<MessageSquare size={18} />} active />
-                <NavIcon icon={<Phone size={18} />} />
-                <NavIcon icon={<Video size={18} />} />
-                <NavIcon icon={<Settings size={18} />} />
+            <div style={{ borderTop: "1px solid var(--border)" }}>
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-around", padding: "0.75rem 1rem", marginTop: "0.25rem" }}>
+                    <NavIcon icon={<MessageSquare size={18} />} active />
+                    <NavIcon icon={<Phone size={18} />} />
+                    <NavIcon icon={<Video size={18} />} />
+                    <NavIcon icon={<Settings size={18} />} />
+                </div>
             </div>
         </aside>
     );
@@ -225,74 +193,22 @@ function ContactRow({
     onClick: () => void;
 }) {
     return (
-        <button
-            onClick={onClick}
-            className="w-full flex items-center gap-3 px-3 py-3 rounded-xl transition-all text-left"
-            style={{
-                background: selected ? "var(--primary)" : "transparent",
-            }}
-        >
-            {/* Avatar */}
-            <div className="relative shrink-0">
-                <div
-                    className="w-10 h-10 rounded-full flex items-center justify-center text-sm text-white select-none"
-                    style={{ background: selected ? "rgba(255,255,255,0.2)" : contact.color }}
-                >
+        <button onClick={onClick} className={`${styles.contactRow} ${selected ? styles.selected : ""}`}>
+            <div className={styles.content}>
+                <div className={styles.avatar} style={{ background: contact.color }}>
                     {contact.avatar}
                 </div>
-                {contact.online && (
-                    <span
-                        className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full border-2"
-                        style={{
-                            background: "#22c55e",
-                            borderColor: selected ? "var(--primary)" : "var(--card)",
-                        }}
-                    />
-                )}
-            </div>
-
-            {/* Info */}
-            <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between mb-0.5">
-                    <span
-                        className="truncate"
-                        style={{
-                            color: selected ? "white" : "var(--foreground)",
-                            fontSize: "14px",
-                        }}
-                    >
-                        {contact.name}
-                    </span>
-                    <span
-                        style={{
-                            color: selected ? "rgba(255,255,255,0.6)" : "var(--muted-foreground)",
-                            fontSize: "11px",
-                        }}
-                    >
-                        {contact.time}
-                    </span>
-                </div>
-                <div className="flex items-center justify-between gap-1">
-                    <span
-                        className="truncate"
-                        style={{
-                            color: selected ? "rgba(255,255,255,0.7)" : "var(--muted-foreground)",
-                            fontSize: "12px",
-                        }}
-                    >
-                        {contact.lastMsg}
-                    </span>
-                    {contact.unread > 0 && (
-                        <span
-                            className="shrink-0 w-4 h-4 rounded-full flex items-center justify-center text-white"
-                            style={{
-                                background: selected ? "rgba(255,255,255,0.3)" : "var(--primary)",
-                                fontSize: "10px",
-                            }}
-                        >
-                            {contact.unread}
-                        </span>
-                    )}
+                <div className={styles.info}>
+                    <div className={styles.header}>
+                        <div className={styles.name}>{contact.name}</div>
+                        <div className={styles.time}>{contact.time}</div>
+                    </div>
+                    <div className={styles.footer}>
+                        <div className={styles.lastMsg}>{contact.lastMsg}</div>
+                        {contact.unread > 0 && (
+                            <div className={styles.unread}>{contact.unread}</div>
+                        )}
+                    </div>
                 </div>
             </div>
         </button>
@@ -308,30 +224,20 @@ function CallsList() {
     ];
 
     return (
-        <div className="space-y-0.5">
+        <div className={styles.callsList}>
             {calls.map((call, i) => (
-                <div
-                    key={i}
-                    className="flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer transition-all hover:opacity-80"
-                    style={{ background: "transparent" }}
-                >
-                    <div
-                        className="w-10 h-10 rounded-full flex items-center justify-center text-sm text-white shrink-0"
-                        style={{ background: call.color }}
-                    >
+                <div key={i} style={{ display: "flex", alignItems: "center", gap: "0.75rem", padding: "0.75rem", borderRadius: "0.75rem", cursor: "pointer", opacity: 0.7 }}>
+                    <div style={{ width: "2.5rem", height: "2.5rem", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "0.875rem", color: "white", flexShrink: 0, background: call.color }}>
                         {call.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
                     </div>
-                    <div className="flex-1 min-w-0">
-                        <div style={{ color: "var(--foreground)", fontSize: "14px" }}>{call.name}</div>
-                        <div className="flex items-center gap-1" style={{ color: call.missed ? "#ef4444" : "var(--muted-foreground)", fontSize: "12px" }}>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ color: "var(--foreground)", fontSize: "0.875rem" }}>{call.name}</div>
+                        <div style={{ display: "flex", alignItems: "center", gap: "0.25rem", color: call.missed ? "#ef4444" : "var(--muted-foreground)", fontSize: "0.75rem" }}>
                             {call.type === "video" ? <Video size={11} /> : <Phone size={11} />}
                             <span>{call.missed ? "Missed" : "Outgoing"} · {call.time}</span>
                         </div>
                     </div>
-                    <button
-                        className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
-                        style={{ background: "var(--muted)", color: "var(--primary)" }}
-                    >
+                    <button style={{ width: "2rem", height: "2rem", borderRadius: "0.5rem", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, background: "var(--muted)", color: "var(--primary)", cursor: "pointer", border: "none" }}>
                         {call.type === "video" ? <Video size={14} /> : <Phone size={14} />}
                     </button>
                 </div>
@@ -343,10 +249,18 @@ function CallsList() {
 function NavIcon({ icon, active }: { icon: React.ReactNode; active?: boolean }) {
     return (
         <button
-            className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
             style={{
+                width: "2.25rem",
+                height: "2.25rem",
+                borderRadius: "0.75rem",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                transition: "all 0.2s",
                 background: active ? "var(--primary)" : "transparent",
                 color: active ? "white" : "var(--muted-foreground)",
+                border: "none",
+                cursor: "pointer",
             }}
         >
             {icon}
